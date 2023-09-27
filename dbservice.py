@@ -7,6 +7,7 @@ def get_data(p):
 
     cursor = conn.cursor()
     t="select * from" +" "+ p
+    
 
     cursor.execute(t)
 
@@ -15,8 +16,6 @@ def get_data(p):
     
     
     return data
-
-
 
 prods=get_data("products")
 print(prods)
@@ -28,6 +27,7 @@ print(sale1s)
 
 
 
+# 2
 conn = psycopg2.connect(
      database="myduka_class", user='postgres', password='sequence150')
 
@@ -46,12 +46,32 @@ def add_data1(p,s):
     cursor.execute(l)
 
 conn.commit()
- 
-    
-    
- 
 bwx=add_data1("products","sales")
 
-# bwx=add_data1()
+
+
+
+
+# 3
+conn = psycopg2.connect(
+     database="myduka_class", user='postgres', password='sequence150')
+
+def rem_stock(p,s):
+    cursor = conn.cursor()
+    m =f"SELECT {p}.product_name,SUM({p}.stock_quantity-{s}.quantity) AS rem_stock from {s}  JOIN products  ON {s}.pid = {p}.pid GROUP BY {p}.product_name ORDER BY rem_stock"
+
+    cursor.execute(m)
+
+
+    data = cursor.fetchall()
+    
+    
+    return data
+
+prods=rem_stock("products","sales")
+print(prods)
+
+
+
 conn.close()
 
