@@ -28,8 +28,7 @@ print(sale1s)
 
 
 # 2
-conn = psycopg2.connect(
-     database="myduka_class", user='postgres', password='sequence150')
+
 
 def add_data1(p,s):
     conn.autocommit = True
@@ -53,8 +52,7 @@ bwx=add_data1("products","sales")
 
 
 # 3
-conn = psycopg2.connect(
-     database="myduka_class", user='postgres', password='sequence150')
+
 
 def rem_stock(p,s):
     cursor = conn.cursor()
