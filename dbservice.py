@@ -1,5 +1,6 @@
 import psycopg2
 from datetime import datetime
+
 conn = psycopg2.connect(
     database="myduka_class", user='postgres', password='sequence150')
 def get_data(p):
@@ -35,9 +36,9 @@ def add_data1(p,s):
     cursor = conn.cursor()
     date1= datetime.now().replace(microsecond=0)
     columns="(product_name, buying_price, selling_price, stock_quantity)"
-    valuess="('lotion',60,100,10)"
+    valuess="('hand lotion',60,100,10)"
     columns1="(pid,quantity,created_at)"
-    valuess1=f"(31,2.00,'{date1}')"
+    valuess1=f"(32,2.00,'{date1}')"
     w =f"INSERT INTO {p} {columns} VALUES {valuess}"
     l =f"INSERT INTO {s} {columns1} VALUES {valuess1}"
 
