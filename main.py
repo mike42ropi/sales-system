@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from dbservice import myduka_
 
 app=Flask(__name__)
 
@@ -13,7 +14,10 @@ def dashboard():
 
 @app.route("/products")
 def products():
-    return render_template("sales.html")
+    p = myduka_("products","sales")
+    weo = p.get_data()
+    print(weo)
+    return render_template("products.html", myprods = weo)
 
 @app.route("/sales")
 def sales():

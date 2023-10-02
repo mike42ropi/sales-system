@@ -3,74 +3,103 @@ from datetime import datetime
 
 conn = psycopg2.connect(
     database="myduka_class", user='postgres', password='sequence150')
-def get_data(p):
+from datetime import datetime
+
+
+
+
+class myduka_:
+   
+    def __init__(self,products,sales):
+        self.products=products
+        self.sales=sales
+        self.get_data()
+        self.get_data1()
+        self.add_data1()
+        self.add_data2()
+        self.rem_stock()
+        
+    
+    def get_data(self):
+        
+
+        cursor = conn.cursor()
+
+        t="select * from" +" "+ self.products
+        
+        cursor.execute(t)
+
+        self.data1 = cursor.fetchall()
+        return self.data1
+        
+        
     
 
-    cursor = conn.cursor()
-    t="select * from" +" "+ p
+    def get_data1(self):
+        
+
+        cursor = conn.cursor()
+        t="select * from" +" "+ self.sales
+        
+
+        cursor.execute(t)
+
+
+        self.data2 = cursor.fetchall()
+        return self.data2
+        
+        
     
 
-    cursor.execute(t)
 
 
-    data = cursor.fetchall()
-    
-    
-    return data
-
-prods=get_data("products")
-print(prods)
-
-sale1s=get_data("sales")
-print(sale1s)
+    def add_data1(self):
+            
+        cursor = conn.cursor()
+        
+        columns = "(id,product_name,buying_price,selling_price,stock_quantity)"
+        valuess = "(34,'salt',15,17,10.00)"
+        
+        w = f"INSERT INTO {self.products} {columns} VALUES {valuess}"
 
 
+        cursor.execute(w)
+        conn.commit()
 
+        
+        
+        
+        
 
+    def add_data2(self):
+          
+        cursor = conn.cursor()
+        date1 = datetime.now().replace(microsecond=0)
+   
+        columns1 = "(id,pid,quantity,created_at)"
+        valuess1 = f"(34,34,2.00,'{date1}')"
+ 
+        l = f"INSERT INTO {self.sales} {columns1} VALUES {valuess1}"
 
-# 2
-
-
-def add_data1(p,s):
-    conn.autocommit = True
-    cursor = conn.cursor()
-    date1= datetime.now().replace(microsecond=0)
-    columns="(product_name, buying_price, selling_price, stock_quantity)"
-    valuess="('hand lotion',60,100,10)"
-    columns1="(pid,quantity,created_at)"
-    valuess1=f"(32,2.00,'{date1}')"
-    w =f"INSERT INTO {p} {columns} VALUES {valuess}"
-    l =f"INSERT INTO {s} {columns1} VALUES {valuess1}"
-
-    cursor.execute(w)
-    cursor.execute(l)
-
-conn.commit()
-bwx=add_data1("products","sales")
+   
+        cursor.execute(l)
+        conn.commit()
 
 
 
+    def rem_stock(self):
+        cursor = conn.cursor()
+        m =f"SELECT {self.products}.product_name,SUM({self.products}.stock_quantity-{self.sales}.quantity)\
+        AS rem_stock from {self.sales}  JOIN products  ON {self.sales}.pid = {self.products}.id GROUP BY\
+        {self.products}.product_name ORDER BY rem_stock"
+
+        cursor.execute(m)
 
 
-# 3
+        self.data3=cursor.fetchall()
+        return self.data3
+        
 
 
-def rem_stock(p,s):
-    cursor = conn.cursor()
-    m =f"SELECT {p}.product_name,SUM({p}.stock_quantity-{s}.quantity) AS rem_stock from {s}  JOIN products  ON {s}.pid = {p}.pid GROUP BY {p}.product_name ORDER BY rem_stock"
-
-    cursor.execute(m)
-
-
-    data = cursor.fetchall()
-    
-    
-    return data
-
-prods=rem_stock("products","sales")
-print(prods)
-
-
-
-conn.close()
-
+prosa=myduka_("products","sales")
+# conn.close()
