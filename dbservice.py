@@ -31,9 +31,8 @@ class myduka_:
 
         self.data1 = cursor.fetchall()
         return self.data1
-        
-        
-    
+
+
 
     def get_data1(self):
         
@@ -46,10 +45,7 @@ class myduka_:
 
 
         self.data2 = cursor.fetchall()
-        return self.data2
-        
-        
-    
+        return self.data2 
 
 
 
@@ -57,8 +53,8 @@ class myduka_:
             
         cursor = conn.cursor()
         
-        columns = "(id,product_name,buying_price,selling_price,stock_quantity)"
-        valuess = "(34,'salt',15,17,10.00)"
+        columns = "(product_name,buying_price,selling_price,stock_quantity)"
+        valuess = f"{vp}"
         
         w = f"INSERT INTO {self.products} {columns} VALUES {valuess}"
 
@@ -66,18 +62,15 @@ class myduka_:
         cursor.execute(w)
         conn.commit()
 
-        
-        
-        
-        
+              
 
     def add_data2(self):
           
         cursor = conn.cursor()
         date1 = datetime.now().replace(microsecond=0)
    
-        columns1 = "(id,pid,quantity,created_at)"
-        valuess1 = f"(34,34,2.00,'{date1}')"
+        columns1 = "(quantity,created_at)"
+        valuess1 = f"({vs},'{date1}')"
  
         l = f"INSERT INTO {self.sales} {columns1} VALUES {valuess1}"
 
@@ -100,6 +93,13 @@ class myduka_:
         return self.data3
         
 
+vp =  (input("Enter Product name: "),
+       float(input("Enter buying_price: ")), 
+       float(input("Enter selling_price: ")),
+       float(input("Enter Stock quantity: ")))
+
+vs = float(input("Enter a quantity: "))
 
 prosa=myduka_("products","sales")
+
 # conn.close()

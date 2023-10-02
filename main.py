@@ -15,9 +15,8 @@ def dashboard():
 @app.route("/products")
 def products():
     p = myduka_("products","sales")
-    weo = p.get_data()
-    print(weo)
-    return render_template("products.html", myprods = weo)
+    sp = p.get_data()
+    return render_template("products.html", myprods = sp)
 
 @app.route("/sales")
 def sales():
