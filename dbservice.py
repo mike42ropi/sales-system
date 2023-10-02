@@ -3,7 +3,7 @@ from datetime import datetime
 
 conn = psycopg2.connect(
     database="myduka_class", user='postgres', password='sequence150')
-from datetime import datetime
+
 
 
 
