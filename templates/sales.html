@@ -32,6 +32,42 @@
         <br>
         <br>
     <div class="container">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Select a Product
+      </button>
+      <br>
+      <br>
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+  
+              <form id="pform" action="/add_sales" method="POST">
+                <select name="pid" required>
+                  {% for p in prd %}
+                  <option value="{{p[0]}}">{{p[1]}}</option>
+                  {%endfor%}
+                </select>
+                <label>quantity</label>
+                <input type="text" name="quantity" placeholder="quantity" id="q">
+                <br>
+  
+                <br>
+                <input type="submit" value="POST">
+  
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <table id="myTable" class="table">
         <thead>
           <tr>

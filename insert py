@@ -72,4 +72,5 @@ vs = float(input("Enter a quantity: "))
 
 prosa=myduka_("products","sales")
 
+
 conn.close()
