@@ -1,6 +1,6 @@
 import psycopg2  
 from flask import Flask, render_template, request, redirect, g
-from dbservice import insert_data,insert_data1,get_data,get_data1
+from dbservice import insert_data,insert_data1,get_data,get_data1,profit
 from datetime import datetime
 conn = psycopg2.connect(
     database="myduka_class", user='postgres', password='sequence150')
@@ -12,9 +12,10 @@ app = Flask(__name__)
 def index():
     return render_template("index.html")
 
-@app.route("/dashboard")
-def dashboard():
-    return render_template("dashboard.html")
+@app.route("/dashboard",methods=['GET','POST'])
+def profit1():       
+    p1=profit("products","sales")
+    return render_template("dashboard.html", myprof = p1)
 
 
 @app.route("/add_products", methods=['POST'])
@@ -55,5 +56,6 @@ def sales():
     ss=get_data("products")
     sp1=get_data1("sales")
     return render_template("sales.html", myprods1 = sp1,prd=ss)
+
 
 app.run(debug=True)

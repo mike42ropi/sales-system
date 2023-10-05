@@ -37,9 +37,17 @@ def insert_data1(values1):
         print("Error:", e)
         conn.rollback()
 
-        
-    
 
+def profit(sales,products):
+    cursor = conn.cursor()
+    m =" SELECT SUM((products.selling_price - products.buying_price) * sales.quantity) AS profit ,\
+    sales.created_at FROM sales JOIN products  ON sales.pid = products.id\
+    WHERE sales.created_at >= '2023-08-07 11:33:08' OR sales.created_at <='2023-10-05 09:29:27'\
+    GROUP BY  sales.created_at;"
+
+    cursor.execute(m)
+    data3=cursor.fetchall()
+    return data3
 
 
 
