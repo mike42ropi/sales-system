@@ -1,12 +1,15 @@
-import psycopg2  
+import psycopg2 
+import json 
 from flask import Flask, render_template, request, redirect, g
+from flask import *  
 from dbservice import insert_data,insert_data1,get_data,get_data1,profit
 from datetime import datetime
 conn = psycopg2.connect(
     database="myduka_class", user='postgres', password='sequence150')
 
+  
 app = Flask(__name__)
-
+app.secret_key = "abc"
 
 @app.route("/")
 def index():
@@ -14,8 +17,10 @@ def index():
 
 @app.route("/dashboard",methods=['GET','POST'])
 def profit1():       
-    p1=profit("products","sales")
-    return render_template("dashboard.html", myprof = p1)
+    p1=[float(i[0]) for i in profit("products","sales")]
+    p2=[str(i[1]) for i in profit("products","sales")]
+    
+    return render_template("dashboard.html", myprof = p1, myprof2=p2)
 
 
 @app.route("/add_products", methods=['POST'])
@@ -57,5 +62,16 @@ def sales():
     sp1=get_data1("sales")
     return render_template("sales.html", myprods1 = sp1,prd=ss)
 
+
+# @app.route('/sales1',methods = ["GET","POST"])  
+# def quanti():  
+#     error = None;  
+#     if request.method == "POST":  
+#         if request.form['quantity'] > 50:  
+#             flash("quantity should be below or equal to 50")  
+#         else:  
+#             error = ""
+#             return redirect(url_for('sales'))  
+#     return render_template('sales.html',error=error)  
 
 app.run(debug=True)
