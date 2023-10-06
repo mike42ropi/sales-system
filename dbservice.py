@@ -38,7 +38,7 @@ def insert_data1(values1):
         conn.rollback()
 
 
-def profit(sales,products):
+def profit():
     cursor = conn.cursor()
     m =" SELECT SUM((products.selling_price - products.buying_price) * sales.quantity) AS profit,\
     sales.created_at FROM sales JOIN products ON sales.pid = products.id  WHERE sales.created_at >=\

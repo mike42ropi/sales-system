@@ -15,10 +15,11 @@ app.secret_key = "abc"
 def index():
     return render_template("index.html")
 
-@app.route("/dashboard",methods=['GET','POST'])
+@app.route("/dashboard")
 def profit1():       
-    p1=[float(i[0]) for i in profit("products","sales")]
-    p2=[str(i[1]) for i in profit("products","sales")]
+    p1=[float(i[0]) for i in profit()]
+    p2=[str(i[1]) for i in profit()]
+
     
     return render_template("dashboard.html", myprof = p1, myprof2=p2)
 
@@ -63,15 +64,16 @@ def sales():
     return render_template("sales.html", myprods1 = sp1,prd=ss)
 
 
-# @app.route('/sales1',methods = ["GET","POST"])  
-# def quanti():  
-#     error = None;  
-#     if request.method == "POST":  
-#         if request.form['quantity'] > 50:  
-#             flash("quantity should be below or equal to 50")  
-#         else:  
-#             error = ""
-#             return redirect(url_for('sales'))  
-#     return render_template('sales.html',error=error)  
+@app.route('/sales1',methods = ["GET","POST"])  
+def quanti():  
+    error = None;  
+    if request.method == "POST":  
+        if request.form['quantity'] > 50:  
+            error = "quantity should be below or equal to 50" 
+        else:  
+            flash("") 
+            return redirect(url_for('sales'))  
+    return render_template('sales.html',error=error)  
 
 app.run(debug=True)
+
