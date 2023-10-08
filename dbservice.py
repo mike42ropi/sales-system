@@ -3,16 +3,16 @@ import psycopg2
 conn = psycopg2.connect(
     database="myduka_class", user='postgres', password='sequence150')
 
-def get_data(table_name):
+def get_data(products):
     cursor = conn.cursor()
-    query = f"SELECT * FROM {table_name}"
+    query = f"SELECT * FROM {products}"
     cursor.execute(query)
     data = cursor.fetchall()
     return data
 
-def get_data1(table_name):
+def get_data1(sales):
     cursor = conn.cursor()
-    query = f"SELECT * FROM {table_name}"
+    query = f"SELECT * FROM {sales}"
     cursor.execute(query)
     data = cursor.fetchall()
     return data
@@ -50,5 +50,24 @@ def profit():
     return data3
 
 
+def check_email():
+    cursor = conn.cursor()
+    check = "SELECT COUNT(*) FROM users WHERE email=email"
+    cursor.execute(check)
+    data4=cursor.fetchone()
+    return data4
 
+def email_pass(email,password):
+    cursor = conn.cursor()
+    check_all = "SELECT COUNT(*) FROM users WHERE email=%s and password=%s"
+    cursor.execute(check_all,(email,password))
+    data5=cursor.fetchone()
+    return data5
+
+def create_user(reg1):
+    cursor = conn.cursor()
+    query2 = "INSERT INTO users (full_name, email, password) VALUES (%s, %s,%s)"
+    cursor.execute(query2,reg1)
+    conn.commit()
+   
 # conn.close()
