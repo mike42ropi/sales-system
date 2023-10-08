@@ -61,13 +61,20 @@ def email_pass(email,password):
     cursor = conn.cursor()
     check_all = "SELECT COUNT(*) FROM users WHERE email=%s and password=%s"
     cursor.execute(check_all,(email,password))
-    data5=cursor.fetchone()
-    return data5
+    log_in=cursor.fetchone()
+    if log_in:
+        
+        if log_in[0] == password:  
+            return log_in
+    return False  
+
+   
 
 def create_user(reg1):
     cursor = conn.cursor()
     query2 = "INSERT INTO users (full_name, email, password) VALUES (%s, %s,%s)"
     cursor.execute(query2,reg1)
+    
     conn.commit()
    
 # conn.close()

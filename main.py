@@ -29,21 +29,17 @@ def index():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     
-    return render_template("login.html")
-
-@app.route("/enter_login", methods=['GET', 'POST'])
-def enter_login():
     if request.method == 'GET':
         email = request.form.get('email')
         password = request.form.get('password')
         
         log_in= email_pass(email,password)
         if log_in:
-            session["log_in"] = log_in
+            session["log_in"] = log_in[0]
             return redirect("/dashboard") 
         else:
-            return redirect("/login")
-    return render_template("dashboard.html")
+            flash("Invalid Email or Password")
+    return render_template("login.html")
     
 
 
