@@ -24,7 +24,6 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link" href="/login"> Login</a>
           <a class="nav-link" href="/dashboard">Dashboard</a>
           <a class="nav-link" href="/products">Products</a>
           <a class="nav-link" href="/sales">Sales</a>
@@ -34,35 +33,19 @@
     </div>
   </nav>
 
-  <br>
-  <br>
-  <br>
+
   <div class="container">
 
-    <div id="carouselExample" class="carousel slide">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="/static/imgg1.jpg " class="d-block w-100" alt="dimba">
-        </div>
-
-      </div>
-    </div>
-    <br>
     <br>
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
       Select a Product
     </button>
-    <br>
-    <br>
-    <br>
+
     <div class="flash">
       {% if error %}
       <p><strong>Error</strong>: {{error}}</p>
       {% endif %}
     </div>
-    <br>
-    <br>
-    <br>
     <br>
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">

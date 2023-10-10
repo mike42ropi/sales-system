@@ -9,17 +9,9 @@ from datetime import datetime
 app = Flask(__name__)
 app.secret_key="mike42ropi!" 
 
-# def login_check():
-#   if session['email']!= None:
-#     return redirect(url_for("profit1"))
-#   return redirect(url_for("login"))
-
-# @app.route("/sales")
-# def sales():
-#   login_check
-#   session['email']
-
-#   return render_template("index.html") 
+def confirm_auth():
+    return 'id' in session
+ 
 
 @app.route("/")
 def index():
@@ -28,50 +20,53 @@ def index():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    
-    if request.method == 'GET':
-        email = request.form.get('email')
-        password = request.form.get('password')
-        
-        log_in= email_pass(email,password)
+    if request.method == 'POST':  # Use uppercase POST
+        email = request.form['email']
+        password = request.form['password']
+        log_in = email_pass(email, password)
         if log_in:
-            session["log_in"] = log_in[0]
-            return redirect("/dashboard") 
+            session["id"] = log_in[0] 
+            return redirect(url_for("dashboard"))
+            
         else:
             flash("Invalid Email or Password")
     return render_template("login.html")
-    
 
 
-# @app.route("/register", methods=['GET','POST'])
-# def register():
-#     email_2 = request.form.get('email_2')
-#     user_n2 = request.form.get('full_name_2')
-#     passd2 = request.form.get('password_2')
-#     reg1 = (email_2, user_n2, passd2)
-    
-#     return create_user(reg1) 
+
    
 @app.route("/register", methods=["GET","POST"])
 def register1():
-    full_name = request.form.get('full_name_2')
-    email = request.form.get('email_2')
-    password = request.form.get('password_2')
-    reg1=(full_name, email, password)
-    if full_name != None and email != None and password != None:
-       create_user(reg1)
+    if request.method == "POST":
+        full_name = request.form.get('full_name_2')
 
-    else:
-        pass   
-    return redirect("/login")
+        email = request.form.get('email_2')
 
+        password = request.form.get('password_2')
+
+        reg1=(full_name, email, password) 
+
+        e_check =check_email(email)
+        
+        if e_check :
+            flash("Email already exist")
+
+            
+        else:
+            flash("successfull")
+            create_user(reg1)
+            return redirect("/login")
+        
+    return render_template("login.html")
 @app.route("/dashboard")
-def profit1():       
-    p1=[float(i[0]) for i in profit()]
-    p2=[str(i[1]) for i in profit()]
-
-    
-    return render_template("dashboard.html", myprof = p1, myprof2=p2)
+def dashboard():  
+    if confirm_auth(): 
+        p1=[float(i[0]) for i in profit()]
+        p2=[str(i[1]) for i in profit()]
+        return render_template("dashboard.html", myprof = p1, myprof2=p2)
+    else:
+        flash("Log in to access")
+        return redirect(url_for("login"))
 
 
 @app.route("/add_products", methods=['POST'])
@@ -90,10 +85,13 @@ def add_products():
 
 
 @app.route("/products",methods=['GET', 'POST'])
-def products():       
-    sp=get_data("products")
-    
-    return render_template("products.html", myprods = sp)
+def products():
+    if confirm_auth():
+        sp=get_data("products")
+        return render_template("products.html", myprods = sp)
+    else:
+        flash("Log in to access")
+        return redirect(url_for("login"))
 
 @app.route("/add_sales" , methods=['POST'])
 def add_sales():
@@ -109,27 +107,22 @@ def add_sales():
 
 @app.route("/sales", methods=['GET', 'POST'])
 def sales():
-    ss=get_data("products")
-    sp1=get_data1("sales")
-    return render_template("sales.html", myprods1 = sp1,prd=ss)
+    if confirm_auth():
+        ss=get_data("products")
+        sp1=get_data1("sales")
+        return render_template("sales.html", myprods1 = sp1,prd=ss)
+    else:
+        flash("Log in to access")
+        return redirect(url_for("login"))
+
 
 
 @app.route("/logout",methods=['GET','POST'])
 def logout():
-    session.pop("reg1", None)
-    return redirect('/')
+    session.pop("id", None)
+    return redirect('/login')
 
 
-# @app.route('/sales1',methods = ["GET","POST"])  
-# def quanti():  
-#     error = None;  
-#     if request.method == "POST":  
-#         if request.form['quantity'] > 50:  
-#             error = "quantity should be below or equal to 50" 
-#         else:  
-#             flash("") 
-#             return redirect(url_for('sales'))  
-#     return render_template('sales.html',error=error)  
 
 app.run(debug=True)
 

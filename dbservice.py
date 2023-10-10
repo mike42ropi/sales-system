@@ -50,24 +50,31 @@ def profit():
     return data3
 
 
-def check_email():
+def check_email(email):
     cursor = conn.cursor()
-    check = "SELECT COUNT(*) FROM users WHERE email=email"
-    cursor.execute(check)
+   
+    cursor.execute("SELECT * FROM users WHERE email= %s",(email,))
     data4=cursor.fetchone()
-    return data4
+    if data4:
+        return data4
+    else:
+        return False
 
 def email_pass(email,password):
     cursor = conn.cursor()
-    check_all = "SELECT COUNT(*) FROM users WHERE email=%s and password=%s"
-    cursor.execute(check_all,(email,password))
-    log_in=cursor.fetchone()
-    if log_in:
-        
-        if log_in[0] == password:  
-            return log_in
-    return False  
+    check_all = 'SELECT * FROM users WHERE email=%s and password=%s'
 
+    cursor.execute(check_all,(email,password))
+    
+    data5=cursor.fetchone()
+    
+
+    if data5 :
+        if data5[3] == password: 
+            return data5
+        else:
+            return False  
+    
    
 
 def create_user(reg1):

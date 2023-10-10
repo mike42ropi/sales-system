@@ -27,15 +27,27 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link" href="/login"> Login</a>
+          <a class="nav-link" href="/login"> Login/Register</a>
           <a class="nav-link" href="/dashboard">Dashboard</a>
           <a class="nav-link" href="/products">Products</a>
           <a class="nav-link" href="/sales">Sales</a>
-          <a class="nav-link" style="float: right;" href="/logout"> logout</a>
+          <div class="flashes-container" style="background-color: bisque; position: absolute;right:5%; height: 5px; font-size: 13px; width: 140px; color: rgb(212, 209, 209);" >
+            {% with messages = get_flashed_messages() %} {% if messages %}
+            <div class="alert alert-primary" role="alert">
+              <ul class="list-unstyled">
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+            {% endif %} {% endwith %}
+          </div>
+        </div>
         </div>
       </div>
     </div>
   </nav>
+  
   <div class="login-reg-panel">
     <div class="login-info-box">
       <h2>Have an account?</h2>
@@ -45,7 +57,7 @@
 
     <div class="register-info-box">
       <h2>Don't have an account?</h2>
-      <p>Lorem ipsum dolor sit amet</p>
+      <p>Sign up!</p>
       <label id="label-login" for="log-login-show">Register</label>
       <input type="radio" name="active-log-panel" id="log-login-show">
     </div>
@@ -53,19 +65,19 @@
     <div class="white-panel" style="background-color: beige;">
       <div class="login-show">
         <h2>LOGIN</h2>
+        <p>Sign in!</p>
         <form action="/login" method="post">
           <input type="text" placeholder="Email" name="email">
           <input type="password" placeholder="Password" name="password">
-          <input type="submit" value="Login">
+          <button class="button-7" type="submit" role="button">Login</button>
         </form>
-        {% with messages = get_flashed_messages()%}
-      {%if message %}
+        <!-- {% with messages = get_flashed_messages()%}
+        {%if message %}
         {%for message in messages%}
         <h3>{{ message }}</h3>
         {% endfor %}
         {% endif %}
-        {% endwith %}
-        <a href="">Forgot password?</a>
+        {% endwith %} -->
       </div>
       <div class="register-show">
         <h2>REGISTER</h2>
@@ -73,11 +85,12 @@
           <input type="text" placeholder="Email" name="email_2">
           <input type="text" placeholder="Username" name="full_name_2">
           <input type="password" placeholder="Confirm Password" name="password_2">
-          <input type="submit" value="Register">
+          <button class="button-7" type="submit" role="button">Register</button>
         </form>
+
       </div>
     </div>
-  </div>
+    
   <script src="/static/login.js"></script>
 </body>
 
