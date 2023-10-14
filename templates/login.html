@@ -32,7 +32,8 @@
           <a class="nav-link" href="/products">Products</a>
           <a class="nav-link" href="/sales">Sales</a>
           <div class="flashes-container" style="background-color: bisque; position: absolute;right:5%; height: 5px; font-size: 13px; width: 140px; color: rgb(212, 209, 209);" >
-            {% with messages = get_flashed_messages() %} {% if messages %}
+            {% with messages = get_flashed_messages() %} 
+            {% if messages %}
             <div class="alert alert-primary" role="alert">
               <ul class="list-unstyled">
                 {% for message in messages %}

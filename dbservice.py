@@ -17,6 +17,33 @@ def get_data1(sales):
     data = cursor.fetchall()
     return data
 
+def get_data2(users):
+    cursor = conn.cursor()
+    query = f"SELECT user_id FROM {users} where online = TRUE"
+    cursor.execute(query)
+    data = cursor.fetchall()
+    if data:
+        data1=data[0][0]       
+        return data1
+    else:
+        return False
+    
+f=get_data2("users")
+print(f)
+def update_data2(users1):
+    cursor = conn.cursor()
+    query = f"UPDATE users SET online = TRUE WHERE users.user_id = {users1};"
+    cursor.execute(query)
+    conn.commit()
+    cursor.close()
+    
+def update_data3():
+    cursor = conn.cursor()
+    query = "UPDATE users SET online = FALSE ;"
+    cursor.execute(query)
+    conn.commit()
+    cursor.close()
+
 def insert_data(values):
     try:
         cursor = conn.cursor()
@@ -30,7 +57,7 @@ def insert_data(values):
 def insert_data1(values1):
     try:
         cursor = conn.cursor()
-        query = "INSERT INTO sales (pid, quantity, created_at) VALUES (%s, %s, %s)"
+        query = "INSERT INTO sales (pid, quantity, user_id,created_at) VALUES (%s, %s,%s, %s)"
         cursor.execute(query, values1)
         conn.commit()
     except Exception as e:
@@ -78,6 +105,7 @@ def email_pass(email,password):
    
 
 def create_user(reg1):
+    
     cursor = conn.cursor()
     query2 = "INSERT INTO users (full_name, email, password) VALUES (%s, %s,%s)"
     cursor.execute(query2,reg1)

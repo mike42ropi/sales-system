@@ -1,7 +1,7 @@
 
 from flask import Flask, render_template, request, redirect,url_for,session,flash
 
-from dbservice import insert_data,insert_data1,get_data,get_data1,profit,check_email,email_pass,create_user
+from dbservice import insert_data,insert_data1,get_data,get_data1,profit,check_email,email_pass,create_user,get_data2,update_data2,update_data3
 from datetime import datetime
 
 
@@ -26,8 +26,13 @@ def login():
         log_in = email_pass(email, password)
         if log_in:
             session["id"] = log_in[0] 
+        
+            users1=log_in[0]
+            update_data2(users1)
+            session["full_name"] = log_in[1]
+             
             return redirect(url_for("dashboard"))
-            
+        
         else:
             flash("Invalid Email or Password")
     return render_template("login.html")
@@ -97,9 +102,10 @@ def products():
 def add_sales():
     pid= request.form['pid']
     quan= request.form['quantity']
+    user_id = get_data2("users")       
     crea_at= datetime.now().replace(microsecond=0)
 
-    values1=(pid,quan,crea_at)
+    values1=(pid,quan,user_id,crea_at,)
             
     insert_data1(values1)
     return redirect("/sales")
@@ -110,6 +116,8 @@ def sales():
     if confirm_auth():
         ss=get_data("products")
         sp1=get_data1("sales")
+       
+
         return render_template("sales.html", myprods1 = sp1,prd=ss)
     else:
         flash("Log in to access")
@@ -119,7 +127,8 @@ def sales():
 
 @app.route("/logout",methods=['GET','POST'])
 def logout():
-    session.pop("id", None)
+    if session.pop("id", None):
+        update_data3()
     return redirect('/login')
 
 

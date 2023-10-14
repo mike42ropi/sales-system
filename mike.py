@@ -42,4 +42,16 @@ def email_pass(email,password):
     #     if log_in != None:  
     #         return log_in
     return data5 
-  
+
+def insert_data1(values1):
+    try:
+        cursor = conn.cursor()
+        query = "INSERT INTO sales (pid, quantity, user_id,created_at) VALUES (%s, ,%s,%s, %s)"
+        cursor.execute(query, values1)
+        conn.commit()
+    except Exception as e:
+        print("Error:", e)
+        conn.rollback()
+# crea_at= datetime.now().replace(microsecond=0)
+values1= (4,20,3.crea_at)
+

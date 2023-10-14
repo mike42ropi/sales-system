@@ -17,7 +17,7 @@ conn = psycopg2.connect(
 #         self.add_data2()
 #         self.rem_stock()
         
-    
+     
     
 #     def add_data1(self):
             
@@ -74,15 +74,18 @@ conn = psycopg2.connect(
 
 
 # conn.close()
-def check_email(email):
-    cursor = conn.cursor()
-    check = f"SELECT * FROM users WHERE email='{email}'"
-    cursor.execute(check,email)
-    data4=cursor.fetchone()
-    if data4:
-        return data4
-    else:
-        return False
+# def check_email(email):
+#     cursor = conn.cursor()
+#     check = f"SELECT * FROM users WHERE email='{email}'"
+#     cursor.execute(check,email)
+#     data4=cursor.fetchone()
+    
+ 
 
-a=check_email("jinja@gmail.com")
-print(a)
+# a=check_email("jinja@gmail.com")
+# print(a)
+def create_user(values):
+    cursor = conn.cursor()
+    insert_query = "INSERT INTO users(full_name,email,password) VALUES('martin koech','mkoech@gmail.com','agfgsj')"
+    cursor.execute(insert_query)
+    conn.commit()
